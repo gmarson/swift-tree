@@ -1,0 +1,25 @@
+▿ Optional<Tree>
+  ▿ some: Tree
+    ▿ root: Optional<Node>
+      ▿ some: Node
+        ▿ children: 2 elements
+          ▿ Node
+            - children: 0 elements
+            - id: "b"
+            ▿ parentId: Optional<String>
+              - some: "rootNodeId"
+            ▿ refToView: Optional<UIView>
+              - some: <UITextField; frame = (0 0; 0 0); text = ''; opaque = NO; layer = <CALayer>>
+            - value: TextField
+          ▿ Node
+            - children: 0 elements
+            - id: "c"
+            ▿ parentId: Optional<String>
+              - some: "rootNodeId"
+            ▿ refToView: Optional<UIView>
+              - some: <UITextField; frame = (0 0; 0 0); text = ''; opaque = NO; layer = <CALayer>>
+            - value: TextField
+        - id: "rootNodeId"
+        - parentId: Optional<String>.none
+        - refToView: Optional<UIView>.none
+        - value: View

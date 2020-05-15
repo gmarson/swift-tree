@@ -1,0 +1,6 @@
+framework module Pods_Search_Tree_Search_TreeUITests {
+  umbrella header "Pods-Search-Tree-Search-TreeUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

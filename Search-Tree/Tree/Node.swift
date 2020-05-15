@@ -11,27 +11,36 @@ import UIKit
 
 protocol CustomView {}
 
-struct Node {
+class Node {
     
     private(set) var id: String = ""
-    var parentId: String? = ""
-    var value: CustomView
-    var refToView: UIView
+    private(set) var parentId: String? = ""
+    private(set) var value: CustomView
+    private(set) weak var refToView: UIView?
+    
+    var children: Array<Node> = []
     
     init(
         value: CustomView,
         view: inout UIView,
         id: String,
-        parentId: String? = nil
+        parentId: String? = nil,
+        children: Array<Node> = []
     ) {
         self.value = value
         self.refToView = view
         self.id = id
         self.parentId = parentId
+        self.children = children
     }
     
-    mutating func setParentId(_ id: String) {
-        parentId = id
+    func addChild(_ node: inout Node) {
+        node.parentId = id
+        children.append(node)
+    }
+    
+    func removeChild(at: Int) {
+        children.remove(at: at)
     }
     
 }

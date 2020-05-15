@@ -1,0 +1,3 @@
+▿ Optional<Tree>
+  ▿ some: Tree
+    - root: Optional<Node>.none

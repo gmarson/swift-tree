@@ -8,67 +8,62 @@
 
 import Foundation
 
-struct Button: CustomView {
-    
-}
-
-struct Label: CustomView {
-    
-}
-
-struct TextField: CustomView {
-    
-}
-
 class Tree {
     
-    var t: [String: [Node]]
-    private(set) var nodeCount = 0
+    var root: Node?
     
-    init(rootNode: Node) {
-        t = [rootNode.id : [rootNode]]
-        nodeCount += 1
+    init(root: Node) {
+        self.root = root
     }
     
-    func add(key: String, _ node: inout Node) {
-        if t[key] == nil { t[key] = [] }
-        
-        t[key]?.append(node)
-        node.setParentId(key)
-        nodeCount += 1
+    func add(_ node: inout Node, to parentNode: Node) {
+        parentNode.addChild(&node)
+    }
+    
+    func addToRoot(_ node: inout Node) {
+        root?.addChild(&node)
     }
     
     func remove(node: Node) {
-        guard let parentId = node.parentId, var branch = t[parentId] else {
+        guard let root = root, let parentNode = Tree.find(rootNode: root, id: node.parentId) else {
+            self.root = nil
             return
         }
         
-        for i in 0 ..< branch.count {
-            if node == branch[i] {
-                branch.remove(at: i)
-                nodeCount -= 1
-                break
+        if let index = parentNode.children.firstIndex(where: {$0 == node}) {
+            parentNode.removeChild(at: index)
+        }
+    }
+    
+    static func find(rootNode: Node, id: String?) -> Node? {
+        guard let id = id else { return nil }
+        if rootNode.id == id {
+            return rootNode
+        } else {
+            for childNodes in rootNode.children {
+                if let fetchedNode = find(rootNode: childNodes, id: id) {
+                    return fetchedNode
+                }
             }
         }
         
-        if t[node.id] != nil {
-            t[node.id] = nil
+        return nil
+    }
+    
+    static func elementsInTree(node: Node?) -> Int {
+        guard let node = node else { return 0 }
+        
+        var sum = 1
+        for child in node.children {
+            if child.children.count > 0 {
+                sum += elementsInTree(node: child)
+            } else {
+                sum += 1
+            }
         }
         
+        return sum
     }
-    
-    func branchAt(_ id: String) -> [Node]? {
-        return t[id]
-    }
-    
-    func nodeAt(_ id: String, index: Int) -> Node? {
-        guard let branch = t[id], branch.count > index else {
-            return nil
-        }
-        
-        return branch[index]
-    }
-    
     
     deinit {
         print("Tree was removed from memory")
